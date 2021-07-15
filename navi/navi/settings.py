@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'nbi_navi'
+    'nbi_navi.apps.NbiNaviConfig'
 ]
 
 MIDDLEWARE = [
