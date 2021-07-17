@@ -14,3 +14,8 @@ def get_category(request, category_id):
     categories = Category.objects.all()
     category = Category.objects.get(pk=category_id)
     return render(request, 'nbi_navi/category.html', {'news': news, 'categories': categories, 'category': category})
+
+def navi(request):
+    active_companies = [['pepsi', 'coke'], ['mercedes', 'WV']]
+    data = {'title': 'NBI Navigator'}
+    return render(request, 'nbi_navi/navi.html', data)
