@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import News, Category #чтоб достать данные из News
-
+from .forms import NewsForm
 
 def index(request):
     news = News.objects.all()
@@ -21,3 +21,10 @@ def view_news(request, news_id):
 def navi(request):
     data = {'title': 'NBI Navigator'}
     return render(request, 'nbi_navi/navi.html', data)
+
+def add_news(request):
+    if request.method == "POST":
+        pass
+    else:
+        form = NewsForm()
+    return render(request, 'nbi_navi/add_news.html', {'form': form})
