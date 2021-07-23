@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import News, Category #чтоб достать данные из News
 from .forms import NewsForm
@@ -24,7 +24,10 @@ def navi(request):
 
 def add_news(request):
     if request.method == "POST":
-        pass
+        form = NewsForm(request.POST) #забрать данные с формы
+        if form.is_valid():
+            news = News.objects.create(**form.cleaned_data)
+            return redirect(news)
     else:
         form = NewsForm()
     return render(request, 'nbi_navi/add_news.html', {'form': form})
