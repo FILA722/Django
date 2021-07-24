@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import News, Category #чтоб достать данные из News
 from .forms import NewsForm
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 class HomeNews(ListView):
     model = News
@@ -33,16 +33,23 @@ def index(request):
 
 class NewsByCategory(ListView):
     model = News
-    template_name = 'nbi_navi/home_news_list.html'
+    template_name = 'nbi_navi/home_news_list.html' #передать в этот шаблон, вместо шаблона по умолчанию
     context_object_name = 'news'
 
     def get_queryset(self):
         return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
 
-def view_news(request, news_id):
-    # news_item = News.objects.get(pk=news_id)
-    news_item = get_object_or_404(News, pk=news_id)
-    return render(request, 'nbi_navi/view_news.html', {'news_item': news_item})
+# def view_news(request, news_id):
+#     # news_item = News.objects.get(pk=news_id)
+#     news_item = get_object_or_404(News, pk=news_id)
+#     return render(request, 'nbi_navi/view_news.html', {'news_item': news_item})
+
+class ViewNews(DetailView):
+    model = News
+    template_name = 'nbi_navi/view_news.html' #передать в этот шаблон, вместо шаблона по умолчанию
+    pk_url_kwarg = 'news_id'
+    context_object_name = 'news' #названия ключа под которым будут переданы данные в форму
+
 
 def navi(request):
     data = {'title': 'NBI Navigator'}
