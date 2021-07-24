@@ -2,6 +2,19 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import News, Category #чтоб достать данные из News
 from .forms import NewsForm
+from django.views.generic import ListView
+
+class HomeNews(ListView):
+    model = News
+    template_name = 'nbi_navi/index.html'
+    context_object_name = 'news'
+    # extra_context = {'title': 'Главная'} #так не рекомендуется выводить титул страницы
+
+    #Название страницы:
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        return context
 
 def index(request):
     news = News.objects.all()
