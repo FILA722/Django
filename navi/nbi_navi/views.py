@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import News, Category #чтоб достать данные из News
 from .forms import NewsForm
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
 
 class HomeNews(ListView):
     model = News
@@ -55,13 +56,19 @@ def navi(request):
     data = {'title': 'NBI Navigator'}
     return render(request, 'nbi_navi/navi.html', data)
 
-def add_news(request):
-    if request.method == "POST":
-        form = NewsForm(request.POST) #забрать данные с формы
-        if form.is_valid():
-            # news = News.objects.create(**form.cleaned_data) # Для модели не связанной с формой
-            news = form.save() # Для модели связанной с формой
-            return redirect(news)
-    else:
-        form = NewsForm()
-    return render(request, 'nbi_navi/add_news.html', {'form': form})
+# def add_news(request):
+#     if request.method == "POST":
+#         form = NewsForm(request.POST) #забрать данные с формы
+#         if form.is_valid():
+#             # news = News.objects.create(**form.cleaned_data) # Для модели не связанной с формой
+#             news = form.save() # Для модели связанной с формой
+#             return redirect(news)
+#     else:
+#         form = NewsForm()
+#     return render(request, 'nbi_navi/add_news.html', {'form': form})
+
+class CreateNews(CreateView):
+    form_class = NewsForm
+    template_name = 'nbi_navi/add_news.html'
+    context_object_name = 'news'
+    success_url = reverse_lazy('home')
