@@ -26,7 +26,8 @@ def add_news(request):
     if request.method == "POST":
         form = NewsForm(request.POST) #забрать данные с формы
         if form.is_valid():
-            news = News.objects.create(**form.cleaned_data)
+            # news = News.objects.create(**form.cleaned_data) # Для модели не связанной с формой
+            news = form.save() # Для модели связанной с формой
             return redirect(news)
     else:
         form = NewsForm()
