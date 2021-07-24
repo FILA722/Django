@@ -15,6 +15,10 @@ class HomeNews(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Главная страница'
         return context
+    #публиковать новости только с выбранным полем "Опубликовать"
+    def get_queryset(self):
+        return News.objects.filter(is_published=True)
+
 
 def index(request):
     news = News.objects.all()
