@@ -5,6 +5,12 @@ from .forms import NewsForm
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 
+
+# def index(request):
+#     news = News.objects.all()
+#     data = {'news': news, 'title': 'Список новостей'}
+#     return render(request, 'nbi_navi/index.html', data)  #request, temple_name, DATA
+
 class HomeNews(ListView):
     model = News
     template_name = 'nbi_navi/index.html'
@@ -20,12 +26,6 @@ class HomeNews(ListView):
     #публиковать новости только с выбранным полем "Опубликовать"
     def get_queryset(self):
         return News.objects.filter(is_published=True)
-
-
-def index(request):
-    news = News.objects.all()
-    data = {'news': news, 'title': 'Список новостей'}
-    return render(request, 'nbi_navi/index.html', data)  #request, temple_name, DATA
 
 # def get_category(request, category_id):
 #     news = News.objects.filter(category_id=category_id)
